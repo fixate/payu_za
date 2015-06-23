@@ -1,12 +1,12 @@
 require 'savon'
 
 require "payu_za/version"
-require "payu_za/client"
 
 module PayuZa
   extend self
 
-  attr_accessor :wsdl_endpoints, :environment, :soap_username, :soap_password
+  attr_accessor :wsdl_endpoints, :environment, :soap_username, :soap_password,
+    :safe_key
 
   def configure
     yield self
@@ -31,3 +31,4 @@ end
 
 PayuZa.default!
 
+require "payu_za/client"
