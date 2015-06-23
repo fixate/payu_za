@@ -3,9 +3,7 @@ require 'savon'
 require "payu_za/version"
 require "payu_za/errors"
 require "payu_za/client"
-require "payu_za/structs/struct_model"
-require "payu_za/structs/additional_information"
-require "payu_za/structs/customer"
+require "payu_za/structs"
 
 module PayuZa
   extend self
