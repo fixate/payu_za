@@ -35,17 +35,23 @@ module PayuZa
         self.class.fields.each do |name, _options|
           value = send(name)
           next if value.nil?
-
-          # Allow for nested structs
-          hash[name.to_s] = if value.respond_to?(:to_hash_without_root)
-            value.to_hash_without_root
-          elsif value.respond_to?(:to_hash)
-            value.to_hash
-          else
-            value
-          end
+          hash[name.to_s] = hash_value(value)
         end
         hash
+      end
+
+      def hash_value(value)
+        if value.respond_to?(:to_hash_without_root)
+          value.to_hash_without_root
+        elsif value.respond_to?(:to_hash)
+          value.to_hash
+        elsif value.is_a?(Array)
+          value.map do |v|
+            hash_value(v)
+          end
+        else
+          value
+        end
       end
 
       module ClassMethods
