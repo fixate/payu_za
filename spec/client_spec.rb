@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe PayuZa::Client, stub_requests: true do
-  before { described_class.send(:public, :client) }
-
   describe '#operations' do
     it 'calls operations on the savon client' do
       expect(subject.client).to receive(:operations)
@@ -19,8 +17,29 @@ RSpec.describe PayuZa::Client, stub_requests: true do
   describe '#method_missing' do
     it 'calls the client' do
       expect(subject.client).to receive(:call)
-        .with(:do_transaction, setTransaction: {  })
-      subject.do_transaction(setTransaction: {  })
+        .with(:do_transaction, message: PayuZa.default_message)
+      subject.do_transaction
+    end
+  end
+
+  describe '#request' do
+    subject { described_class.new.request(:do_transaction, AdditionalInfo: {merchantReference: '1234'}) }
+
+    it 'contains wsse header' do
+      expect(subject.body).to include('<wsse:Security')
+    end
+
+    it 'contains wsse user name token' do
+      expect(subject.body).to include('<wsse:UsernameToken')
+    end
+
+    it 'contains wsse user name' do
+      PayuZa.soap_username = 'test123'
+      expect(subject.body).to include('<wsse:Username>test123</wsse:Username>')
+    end
+
+    it 'contains wsse user password' do
+      expect(subject.body).to include('<wsse:Password')
     end
   end
 end

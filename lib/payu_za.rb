@@ -1,12 +1,17 @@
 require 'savon'
 
 require "payu_za/version"
+require "payu_za/errors"
+require "payu_za/client"
+require "payu_za/structs/struct_model"
+require "payu_za/structs/additional_information"
+require "payu_za/structs/customer"
 
 module PayuZa
   extend self
 
   attr_accessor :wsdl_endpoints, :environment, :soap_username, :soap_password,
-    :safe_key
+    :safe_key, :api_version, :password_digest
 
   def configure
     yield self
@@ -14,6 +19,7 @@ module PayuZa
 
   def default!
     PayuZa.configure do |config|
+      config.api_version = 'ONE_ZERO'
       config.wsdl_endpoints = {
         development: 'https://staging.payu.co.za/service/PayUAPI?wsdl',
         staging: 'https://staging.payu.co.za/service/PayUAPI?wsdl',
@@ -24,11 +30,22 @@ module PayuZa
     end
   end
 
+  # Set defaults
+  default!
+
+  def default_message
+    @default_message ||= {
+      Api: api_version,
+      Safekey: safe_key
+    }
+  end
+
+  def default_message=(value)
+    @default_message = value.freeze
+  end
+
   def wsdl_endpoint
     wsdl_endpoints[environment]
   end
 end
 
-PayuZa.default!
-
-require "payu_za/client"
