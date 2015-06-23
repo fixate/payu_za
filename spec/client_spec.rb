@@ -18,9 +18,9 @@ RSpec.describe PayuZa::Client, stub_requests: true do
 
   describe '#method_missing' do
     it 'calls the client' do
-      expect(subject.client).to receive(:call).with(:do_transaction, 'test')
-      subject.do_transaction('test')
+      expect(subject.client).to receive(:call)
+        .with(:do_transaction, setTransaction: {  })
+      subject.do_transaction(setTransaction: {  })
     end
   end
 end
-
