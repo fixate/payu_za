@@ -19,13 +19,11 @@ module PayuZa
       end
 
       def to_hash
-        {
-          self.class.root => vars_to_hash
-        }
+        vars_to_hash
       end
 
-      def to_hash_without_root
-        vars_to_hash
+      def operation_name
+        self.class.name.split('::').last.underscore.to_sym
       end
 
       private
@@ -41,9 +39,7 @@ module PayuZa
       end
 
       def hash_value(value)
-        if value.respond_to?(:to_hash_without_root)
-          value.to_hash_without_root
-        elsif value.respond_to?(:to_hash)
+        if value.respond_to?(:to_hash)
           value.to_hash
         elsif value.is_a?(Array)
           value.map do |v|
@@ -86,14 +82,6 @@ module PayuZa
 
         def fields
           @fields ||= {}
-        end
-
-        def root(value = nil)
-          if value.nil?
-            @root || self.name.split('::').last
-          else
-            @root = value
-          end
         end
       end
     end

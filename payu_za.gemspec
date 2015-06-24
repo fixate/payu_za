@@ -20,9 +20,14 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "savon", "~> 2.11.1"
 
+  # We use active support for:
+  # - String.camelize
+  # - String.constantize
+  # - String.underscore
+  spec.add_dependency "activesupport", ">= 3"
+
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.3.0"
   spec.add_development_dependency "webmock", "~> 1.21.0"
-  spec.add_development_dependency "activesupport", "~> 4.0.0"
 end

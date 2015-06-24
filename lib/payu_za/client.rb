@@ -4,20 +4,25 @@ module PayuZa
       client.operations
     end
 
-    def respond_to?(method)
-      super || operations.include?(method)
+    # execute(:method, {my: 'message'}|Struct)
+    # or
+    # execute(Struct)
+    def execute(*args)
+      if args.length > 1
+        operation_name, struct = args
+      else
+        struct = args.first
+        operation_name = struct.operation_name
+      end
+
+      message = struct.respond_to?(:to_hash) ? struct.to_hash : struct
+
+      client.call(operation_name, message: message)
     end
 
-    def method_missing(method, *args, &block)
-      if operations.include?(method)
-        struct = args.first
-        message = struct.is_a?(PayuZa::Structs::StructModel) ?
-          struct.to_hash : struct
-
-        client.call(method, message: message)
-      else
-        super
-      end
+    def new_struct(name, attributes = {})
+      klass = name.to_s.camelize
+      "PayuZa::Structs::#{klass}".constantize.create(attributes)
     end
 
     def request(name, struct)

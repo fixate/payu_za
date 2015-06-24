@@ -46,25 +46,14 @@ RSpec.describe PayuZa::Structs::StructModel do
   end
 
   describe '#to_hash' do
-    it 'has the class name as root' do
-      expect(subject.to_hash).to have_key('DummyClass')
-    end
-
-    it 'uses overriden root name' do
-      old_root = subject.class.root
-      subject.class.root "FooRoot"
-      expect(subject.to_hash).to have_key('FooRoot')
-      subject.class.root(old_root)
-    end
-
     it 'contains all the non-nil fields' do
-      expect(subject.to_hash['DummyClass']).to have_key('description')
+      expect(subject.to_hash).to have_key('description')
     end
 
     it 'converts nested structs' do
       subject.class.field :another_dummy
       subject.another_dummy = DummyClass.create(name: 'nested')
-      expect(subject.to_hash['DummyClass']['another_dummy']['name']).to eq('nested')
+      expect(subject.to_hash['another_dummy']['name']).to eq('nested')
     end
   end
 

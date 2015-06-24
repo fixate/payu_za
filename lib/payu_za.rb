@@ -1,3 +1,4 @@
+require "active_support/core_ext/string"
 require 'savon'
 
 require "payu_za/version"
@@ -24,7 +25,7 @@ module PayuZa
         production: 'https://secure.payu.co.za/service/PayUAPI?wsdl'
       }
 
-      config.environment = :production
+      config.environment = :staging
     end
   end
 
@@ -35,4 +36,3 @@ module PayuZa
     wsdl_endpoints[environment]
   end
 end
-

@@ -10,22 +10,32 @@ RSpec.describe PayuZa::Client, stub_requests: true do
     end
   end
 
-  describe '#respond_to?' do
-    it 'responds to wsdl do_transaction method' do
-      expect(subject).to respond_to(:do_transaction)
-    end
-  end
-
-  describe '#method_missing' do
+  describe '#execute' do
     it 'calls the clients call function' do
       expect(subject.client).to receive(:call)
-        .with(:do_transaction, message: transaction.to_hash)
-      subject.do_transaction(transaction)
+        .with(:get_transaction, message: transaction.to_hash)
+      subject.execute(transaction)
     end
 
     it 'returns a savon response' do
-      response = subject.get_transaction(transaction)
+      response = subject.execute(transaction)
       expect(response).to be_kind_of(Savon::Response)
+    end
+  end
+
+  describe '#new_struct' do
+    it 'creates a new struct by name' do
+      expect(subject.new_struct(:additional_information)).to(
+        be_kind_of(PayuZa::Structs::AdditionalInformation)
+      )
+    end
+
+    it 'initializes the structure' do
+      struct = subject.new_struct(:do_transaction, {
+        Api: '123'
+      })
+
+      expect(struct.Api).to eq('123')
     end
   end
 

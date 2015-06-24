@@ -13,8 +13,8 @@ RSpec.describe PayuZa do
       expect(described_class.wsdl_endpoints).to eq(wsdl)
     end
 
-    it 'sets environment to production by default' do
-      expect(described_class.environment).to be(:production)
+    it 'sets environment to staging by default' do
+      expect(described_class.environment).to be(:staging)
     end
   end
 

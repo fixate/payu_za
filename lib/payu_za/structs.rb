@@ -7,3 +7,21 @@ require "payu_za/structs/custom_field"
 require "payu_za/structs/get_transaction"
 require "payu_za/structs/do_transaction"
 
+
+module PayuZa
+  module Structs
+    module TRANSACTION_TYPE
+      RESERVE        = 'RESERVE'
+      RESERVE_CANCEL = 'RESERVE_CANCEL'
+      PAYMENT        = 'PAYMENT'
+      FINALIZE       = 'FINALIZE'
+      CREDIT         = 'CREDIT'
+    end
+
+    module AUTHENTICATION_TYPE
+      NA        = 'NA'
+      HANDSHAKE = 'HANDSHAKE'
+      TOKEN     = 'TOKEN'
+    end
+  end
+end
