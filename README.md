@@ -71,6 +71,12 @@ creditcard.cardExpiry = '122013'
 transaction.Creditcard = creditcard
 
 response = client.execute(transaction)
+# or you can pass in a hash
+response = client.execute(:do_transaction, {
+  Api: 'ONE_ZERO',
+  SafeKey: '12345'
+  # ...
+})
 
 ```
 
