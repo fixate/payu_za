@@ -1,0 +1,22 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:doTransactionResponse xmlns:ns2="http://soap.api.controller.web.payjar.com/">
+         <return>
+            <resultCode>00</resultCode>
+            <resultMessage>Successful</resultMessage>
+            <successful>true</successful>
+            <displayMessage>Successful</displayMessage>
+            <merchantReference>1234567890</merchantReference>
+            <payUReference>21976214819</payUReference>
+            <paymentMethodsUsed xsi:type="ns2:creditCard" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+               <amountInCents>1000</amountInCents>
+               <cardExpiry>122015</cardExpiry>
+               <cardNumber>400000******1000</cardNumber>
+               <gatewayReference>37149772</gatewayReference>
+               <information>VISA</information>
+               <nameOnCard>John Doe</nameOnCard>
+            </paymentMethodsUsed>
+         </return>
+      </ns2:doTransactionResponse>
+   </soap:Body>
+</soap:Envelope>

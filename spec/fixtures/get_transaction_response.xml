@@ -1,0 +1,32 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ns2:getTransactionResponse xmlns:ns2="http://soap.api.controller.web.payjar.com/">
+      <return>
+        <MerchantReference>123</MerchantReference>
+        <TransactionType>RESERVE</TransactionType>
+        <TransactionState>SUCCESSFUL</TransactionState>
+        <ResultCode>000</ResultCode>
+        <ResultMessage>Staged</ResultMessage>
+        <PayUReference>234534523452</PayUReference>
+        <Basket>
+            <Description>PnP Basket</Description>
+            <AmountInCents>12300</AmountInCents>
+            <CurrencyCode>ZAR</CurrencyCode>
+        </Basket>
+        <PaymentMethodsUsed>
+          <CreditCard
+            Information="Visa"
+            NameOnCard="Mr Soap"
+            CardNumber="522112xxxxxx1234"
+            AmountInCents="10000"
+            FraudIndex="200" />
+          </PaymentMethodsUsed>
+        <Fraud>
+            <ResultCode>V030</ResultCode>
+            <ResultMessage>Approved</ResultMessage>
+            <CaseManagerNote>N/A</CaseManagerNote>
+        </Fraud>
+      </return>
+    </ns2:getTransactionResponse>
+  </soap:Body>
+</soap:Envelope>

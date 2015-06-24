@@ -4,6 +4,7 @@ module PayuZa
       include StructModel
 
       field :merchantReference, required: true
+      field :payUReference
       field :demoMode
       field :notificationUrl
     end
