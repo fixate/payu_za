@@ -9,6 +9,6 @@ module StubRequests
 
   def stub_wsdl!
     stub_request(:get, PayuZa.wsdl_endpoint)
-      .to_return(body: fixture(:staging_wsdl))
+      .to_return(body: fixture(:staging_wsdl, :xml))
   end
 end

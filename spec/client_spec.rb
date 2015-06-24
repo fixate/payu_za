@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe PayuZa::Client, stub_requests: true do
+  let(:transaction) { fixture_struct(:do_transaction) }
+
   describe '#operations' do
     it 'calls operations on the savon client' do
       expect(subject.client).to receive(:operations)
@@ -17,13 +19,16 @@ RSpec.describe PayuZa::Client, stub_requests: true do
   describe '#method_missing' do
     it 'calls the client' do
       expect(subject.client).to receive(:call)
-        .with(:do_transaction, message: PayuZa.default_message)
-      subject.do_transaction
+        .with(:do_transaction, message: transaction.to_hash)
+      subject.do_transaction(transaction)
     end
   end
 
   describe '#request' do
-    subject { described_class.new.request(:do_transaction, AdditionalInfo: {merchantReference: '1234'}) }
+    subject do
+      described_class.new
+        .request(:do_transaction, transaction)
+    end
 
     it 'contains wsse header' do
       expect(subject.body).to include('<wsse:Security')

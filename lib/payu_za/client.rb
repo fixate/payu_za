@@ -10,18 +10,18 @@ module PayuZa
 
     def method_missing(method, *args, &block)
       if operations.include?(method)
-        client.call(method, message: message(*args))
+        struct = args.first
+        message = struct.is_a?(PayuZa::Structs::StructModel) ?
+          struct.to_hash : struct
+
+        client.call(method, message: message)
       else
         super
       end
     end
 
-    def request(name, message)
-      client.operation(name).request(message: message(message))
-    end
-
-    def message(message = {})
-      PayuZa.default_message.merge(message)
+    def request(name, struct)
+      client.operation(name).request(message: struct.to_hash)
     end
 
     def client

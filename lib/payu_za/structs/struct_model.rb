@@ -54,12 +54,21 @@ module PayuZa
         end
       end
 
+      def default_for(field)
+        default = self.class.fields[field][:default]
+        if default.respond_to?(:call)
+          default.arity > 0 ?  default.call(self) : default.call
+        else
+          default
+        end
+      end
+
       module ClassMethods
         def field(name, options = {})
           fields[name] = options
 
           define_method name do
-            instance_variable_get(:"@#{name}") || self.class.fields[name][:default]
+            instance_variable_get(:"@#{name}") || default_for(name)
           end
 
           define_method "#{name}=" do |value|
@@ -81,7 +90,7 @@ module PayuZa
 
         def root(value = nil)
           if value.nil?
-            @root || self.name
+            @root || self.name.split('::').last
           else
             @root = value
           end

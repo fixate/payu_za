@@ -31,17 +31,6 @@ module PayuZa
   # Set defaults
   default!
 
-  def default_message
-    @default_message ||= {
-      Api: api_version,
-      Safekey: safe_key
-    }
-  end
-
-  def default_message=(value)
-    @default_message = value.freeze
-  end
-
   def wsdl_endpoint
     wsdl_endpoints[environment]
   end
