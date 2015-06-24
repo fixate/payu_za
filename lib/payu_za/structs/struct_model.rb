@@ -23,7 +23,7 @@ module PayuZa
       end
 
       def operation_name
-        self.class.name.split('::').last.underscore.to_sym
+        @operation_name ||= self.class.name.split('::').last.underscore.to_sym
       end
 
       private
